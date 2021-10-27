@@ -10,8 +10,11 @@
     "node": ">=14.15.0"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.38.0",
     "@middy/core": "^1.5.2",
     "@middy/http-json-body-parser": "^1.5.2",
+    "@types/aws-sdk": "^2.7.0",
+    "aws-sdk": "^2.1015.0",
     "source-map-support": "^0.5.19"
   },
   "devDependencies": {

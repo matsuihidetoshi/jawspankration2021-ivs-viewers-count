@@ -57,21 +57,21 @@ const serverlessConfiguration: AWS = {
           TableName: 'jawspankration2021-ivs-viewers',
           AttributeDefinitions: [
             {
-              AttributeName: 'id',
+              AttributeName: 'channel',
               AttributeType: 'S'
             },
             {
-              AttributeName: 'count',
+              AttributeName: 'time',
               AttributeType: 'N'
             }
           ],
           KeySchema: [
             {
-              AttributeName: 'id',
+              AttributeName: 'channel',
               KeyType: 'HASH'
             },
             {
-              AttributeName: 'count',
+              AttributeName: 'time',
               KeyType: 'RANGE'
             }
           ],
