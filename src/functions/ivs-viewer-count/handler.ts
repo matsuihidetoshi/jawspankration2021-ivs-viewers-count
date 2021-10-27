@@ -9,7 +9,7 @@ import { DynamoDB, BatchWriteItemCommand } from '@aws-sdk/client-dynamodb'
 
 let response: object
 
-const ivsViewerCount: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (event) => {
+const ivsViewerCount: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async (_) => {
   const dynamodb = new DynamoDB({})
   const tableName = 'jawspankration2021-ivs-viewers'
   const time = Date.now()
