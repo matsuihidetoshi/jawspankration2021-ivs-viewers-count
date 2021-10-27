@@ -51,14 +51,7 @@ const serverlessConfiguration: AWS = {
   },
   // import the function via paths
   functions: {
-    ivsViewerCount: {
-      handler: ivsViewerCount.handler,
-      events: [{
-        schedule: {
-          rate: ['rate(1 minute)']
-        }
-      }]
-    }
+    ivsViewerCount
   },
   resources: {
     Resources: {
