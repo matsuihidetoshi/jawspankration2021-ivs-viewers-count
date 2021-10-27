@@ -33,6 +33,17 @@ const serverlessConfiguration: AWS = {
             'Resource': [
               'arn:aws:dynamodb:us-east-1:*:table/*'
             ]
+          },
+          {
+            'Effect': 'Allow',
+            'Action': [
+              'ivs:ListChannels',
+              'ivs:ListStreams',
+              'ivs:PutMetadata'
+            ],
+            'Resource': [
+              'arn:aws:ivs:us-east-1:*:channel/*'
+            ]
           }
         ]
       }

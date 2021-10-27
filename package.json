@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.38.0",
+    "@aws-sdk/client-ivs": "^3.38.0",
     "@middy/core": "^1.5.2",
     "@middy/http-json-body-parser": "^1.5.2",
     "@types/aws-sdk": "^2.7.0",
