@@ -21,7 +21,22 @@ const serverlessConfiguration: AWS = {
     lambdaHashingVersion: '20201221',
     region: 'us-east-1',
     stage: 'beta',
-    profile: 'default'
+    profile: 'default',
+    iam: {
+      role: {
+        statements: [
+          {
+            'Effect': 'Allow',
+            'Action': [
+              'dynamodb:*'
+            ],
+            'Resource': [
+              'arn:aws:dynamodb:us-east-1:*:table/*'
+            ]
+          }
+        ]
+      }
+    }
   },
   // import the function via paths
   functions: {
@@ -34,6 +49,40 @@ const serverlessConfiguration: AWS = {
       }]
     }
   },
+  resources: {
+    Resources: {
+      DynamoDbTable: {
+        Type: 'AWS::DynamoDB::Table',
+        Properties: {
+          TableName: 'jawspankration2021-ivs-viewers',
+          AttributeDefinitions: [
+            {
+              AttributeName: 'id',
+              AttributeType: 'S'
+            },
+            {
+              AttributeName: 'count',
+              AttributeType: 'N'
+            }
+          ],
+          KeySchema: [
+            {
+              AttributeName: 'id',
+              KeyType: 'HASH'
+            },
+            {
+              AttributeName: 'count',
+              KeyType: 'RANGE'
+            }
+          ],
+          ProvisionedThroughput: {
+            ReadCapacityUnits: 1,
+            WriteCapacityUnits: 1
+          }
+        }
+      }
+    }
+  }
 };
 
 module.exports = serverlessConfiguration;
