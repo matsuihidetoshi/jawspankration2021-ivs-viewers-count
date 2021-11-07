@@ -5,7 +5,7 @@ import { middyfy } from '@libs/lambda';
 
 import schema from './schema';
 import { IvsClient, ListChannelsCommand, ListStreamsCommand } from '@aws-sdk/client-ivs'
-import { DynamoDB, BatchWriteItemCommand } from '@aws-sdk/client-dynamodb'
+import { DynamoDB, BatchWriteItemCommand, QueryCommand } from '@aws-sdk/client-dynamodb'
 
 let response: object
 const dynamodb = new DynamoDB({})
@@ -54,6 +54,30 @@ const ivsViewerCount: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async 
       },
     })
     await dynamodb.send(batchWriteItem)
+
+    const queries = requestItems.map(item => {
+      return new QueryCommand({
+        TableName: 'jawspankration2021-ivs-viewers',
+        KeyConditionExpression: "channel = :channel",
+        ExpressionAttributeValues: {
+          ':channel': { S: item.PutRequest.Item.channel.S },
+        },
+        Limit: 5,
+        ScanIndexForward: false
+      })
+    })
+    
+    const results = await Promise.all(
+      queries.map(async (query) => {
+        return await dynamodb.send(query)
+      })
+    )
+
+    results.forEach(result => {
+      result.Items.forEach(item => {
+        console.log(item)
+      })
+    })
 
     response = {
       statusCode: 200,
