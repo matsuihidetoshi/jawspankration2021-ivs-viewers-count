@@ -4,7 +4,7 @@ import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/apiGateway';
 import { middyfy } from '@libs/lambda';
 
 import schema from './schema';
-import { IvsClient, ListChannelsCommand, ListStreamsCommand } from '@aws-sdk/client-ivs'
+import { IvsClient, ListChannelsCommand, ListStreamsCommand, PutMetadataCommand } from '@aws-sdk/client-ivs'
 import { DynamoDB, BatchWriteItemCommand, QueryCommand } from '@aws-sdk/client-dynamodb'
 
 let response: object
@@ -74,9 +74,14 @@ const ivsViewerCount: ValidatedEventAPIGatewayProxyEvent<typeof schema> = async 
     )
 
     results.forEach(result => {
-      result.Items.forEach(item => {
-        console.log(item)
-      })
+      const input = {
+        channelArn: result.Items[0].channel.S,
+        metadata: result.Items.map(item => item.count.N).join(',')
+      }
+
+      const putMetadataCommand = new PutMetadataCommand(input);
+
+      ivs.send(putMetadataCommand);
     })
 
     response = {
